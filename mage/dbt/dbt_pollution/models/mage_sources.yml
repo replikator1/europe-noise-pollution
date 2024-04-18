@@ -1,0 +1,14 @@
+sources:
+- description: Dataframes Mage upstream blocks
+  loader: mage
+  name: mage_dbt_pollution
+  schema: europe_noise_pollution_ds
+  tables:
+  - description: Dataframe for block `create_external_bq_tables` of the `main_pipeline`
+      mage pipeline.
+    identifier: mage_main_pipeline_create_external_bq_tables
+    meta:
+      block_uuid: create_external_bq_tables
+      pipeline_uuid: main_pipeline
+    name: main_pipeline_create_external_bq_tables
+version: 2

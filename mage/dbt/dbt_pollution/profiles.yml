@@ -1,0 +1,11 @@
+dbt_pollution:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: service-account
+      project: dtc-de-course-412911
+      dataset: europe_noise_pollution_ds
+      threads: 4 # Must be a value of 1 or greater
+      keyfile: /home/src/dtc-de-course-412911-26682d504a19.json
+      OPTIONAL_CONFIG: VALUE

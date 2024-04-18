@@ -1,0 +1,11 @@
+version: 2
+
+sources:
+  - name: staging
+    database: dtc-de-course-412911
+    schema: europe_noise_pollution_ds
+
+    tables:
+      - name: location_external
+      - name: sensors_external
+

@@ -1,0 +1,214 @@
+blocks:
+- all_upstream_blocks_executed: true
+  color: null
+  configuration:
+    file_source:
+      path: data_loaders/extract_file_names_from_website.py
+  downstream_blocks:
+  - download_data_from_website
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: extract_file_names_from_website
+  retry_config: null
+  status: executed
+  timeout: null
+  type: data_loader
+  upstream_blocks: []
+  uuid: extract_file_names_from_website
+- all_upstream_blocks_executed: true
+  color: null
+  configuration:
+    file_source:
+      path: data_loaders/download_data_from_website.py
+  downstream_blocks:
+  - pollution_data_to_gcs_parquet
+  - extract_location
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: download_data_from_website
+  retry_config: null
+  status: executed
+  timeout: null
+  type: data_loader
+  upstream_blocks:
+  - extract_file_names_from_website
+  uuid: download_data_from_website
+- all_upstream_blocks_executed: true
+  color: null
+  configuration:
+    file_source:
+      path: data_exporters/pollution_data_to_gcs_parquet.py
+  downstream_blocks:
+  - create_external_bq_tables
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: pollution_data_to_gcs_parquet
+  retry_config: null
+  status: executed
+  timeout: null
+  type: data_exporter
+  upstream_blocks:
+  - download_data_from_website
+  uuid: pollution_data_to_gcs_parquet
+- all_upstream_blocks_executed: true
+  color: null
+  configuration:
+    file_source:
+      path: transformers/extract_location.py
+  downstream_blocks:
+  - location_data_to_gcs_csv
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: extract_location
+  retry_config: null
+  status: executed
+  timeout: null
+  type: transformer
+  upstream_blocks:
+  - download_data_from_website
+  uuid: extract_location
+- all_upstream_blocks_executed: true
+  color: null
+  configuration:
+    file_source:
+      path: data_exporters/location_data_to_gcs_csv.py
+  downstream_blocks:
+  - create_external_bq_tables
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: location_data_to_gcs_csv
+  retry_config: null
+  status: executed
+  timeout: null
+  type: data_exporter
+  upstream_blocks:
+  - extract_location
+  uuid: location_data_to_gcs_csv
+- all_upstream_blocks_executed: true
+  color: null
+  configuration:
+    data_provider: bigquery
+    data_provider_profile: default
+    dbt: {}
+    disable_query_preprocessing: false
+    export_write_policy: append
+    file_source:
+      path: data_exporters/create_external_bq_tables.sql
+    limit: 1000
+    use_raw_sql: true
+  downstream_blocks:
+  - dbt/dbt_pollution/models/staging/stg_location
+  - dbt/dbt_pollution/models/staging/stg_sensors_data
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: sql
+  name: create_external_bq_tables
+  retry_config: null
+  status: executed
+  timeout: null
+  type: data_exporter
+  upstream_blocks:
+  - pollution_data_to_gcs_parquet
+  - location_data_to_gcs_csv
+  uuid: create_external_bq_tables
+- all_upstream_blocks_executed: true
+  color: null
+  configuration:
+    dbt_project_name: dbt/dbt_pollution
+    file_path: dbt/dbt_pollution/models/staging/stg_location.sql
+    file_source:
+      path: dbt/dbt_pollution/models/staging/stg_location.sql
+      project_path: dbt/dbt_pollution
+  downstream_blocks:
+  - dbt/dbt_pollution/models/core/noise_pollution_final_table
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: sql
+  name: stg_location
+  retry_config: null
+  status: executed
+  timeout: null
+  type: dbt
+  upstream_blocks:
+  - create_external_bq_tables
+  uuid: dbt/dbt_pollution/models/staging/stg_location
+- all_upstream_blocks_executed: true
+  color: null
+  configuration:
+    dbt_project_name: dbt/dbt_pollution
+    file_path: dbt/dbt_pollution/models/staging/stg_sensors_data.sql
+    file_source:
+      path: dbt/dbt_pollution/models/staging/stg_sensors_data.sql
+      project_path: dbt/dbt_pollution
+  downstream_blocks:
+  - dbt/dbt_pollution/models/core/noise_pollution_final_table
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: sql
+  name: stg_sensors_data
+  retry_config: null
+  status: executed
+  timeout: null
+  type: dbt
+  upstream_blocks:
+  - create_external_bq_tables
+  uuid: dbt/dbt_pollution/models/staging/stg_sensors_data
+- all_upstream_blocks_executed: true
+  color: null
+  configuration:
+    dbt_project_name: dbt/dbt_pollution
+    file_path: dbt/dbt_pollution/models/core/noise_pollution_final_table.sql
+    file_source:
+      path: dbt/dbt_pollution/models/core/noise_pollution_final_table.sql
+      project_path: dbt/dbt_pollution
+  downstream_blocks: []
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: sql
+  name: noise_pollution_final_table
+  retry_config: null
+  status: executed
+  timeout: null
+  type: dbt
+  upstream_blocks:
+  - dbt/dbt_pollution/models/staging/stg_location
+  - dbt/dbt_pollution/models/staging/stg_sensors_data
+  uuid: dbt/dbt_pollution/models/core/noise_pollution_final_table
+cache_block_output_in_memory: false
+callbacks: []
+concurrency_config: {}
+conditionals: []
+created_at: '2024-04-18 16:41:44.655633+00:00'
+data_integration: null
+description: null
+executor_config: {}
+executor_count: 1
+executor_type: null
+extensions: {}
+name: main_pipeline
+notification_config: {}
+remote_variables_dir: null
+retry_config: {}
+run_pipeline_in_one_process: false
+settings:
+  triggers: null
+spark_config: {}
+tags: []
+type: python
+uuid: main_pipeline
+variables_dir: /home/src/mage_data/mage
+widgets: []
