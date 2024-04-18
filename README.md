@@ -10,6 +10,8 @@ The aim of the project is to investigate the level of noise pollution in Europea
 * Mage
 * Terraform
 
+## Solution 
+
 ## Dashboard
 
 ## How to Run the Project?
