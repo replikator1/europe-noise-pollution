@@ -11,8 +11,10 @@ The aim of the project is to investigate the level of noise pollution in Europea
 * Terraform
 
 ## Solution 
+![alt text](https://github.com/replikator1/europe-noise-pollution/blob/main/images/pipeline_complete.png "whole pipeline")
 
 ## Dashboard
+![alt text](https://github.com/replikator1/europe-noise-pollution/blob/main/images/dashboard_final.png "dashboard")
 
 ## How to Run the Project?
 
