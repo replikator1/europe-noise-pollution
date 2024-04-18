@@ -36,6 +36,7 @@ From main directory `cd terraform`
 Make appropiate changes in `variables.tf`: 
 - `project` - enter your GCP project id
 - `gcs_bucket_name"` - enter name of GCS bucket (save it somewhere, we'll need it next steps)
+
 Make change in `main.tf` file:
 - `credentials = "keys/(put your key name here).json"`
 After that steps make sure you are in `terraform` directory and:
@@ -62,7 +63,7 @@ In the `mage/dbt/dbt_pollution/profiles.yml` file:
 * `project: (put your project name here)`
 * `keyfile: /home/src/(put you google service account key name here).json`
 
-In the `mage/dbt/dbt_pollution/models/staging/schema.yml`
+In the `mage/dbt/dbt_pollution/models/staging/schema.yml` file:
 * `database: (put your project name here)`
 
 ### 5. Start docker containers
